@@ -1,0 +1,8 @@
+ACTION = 'action'
+ACTION_PROFIT = 'action_profit'
+ALWAYS_TRADE_ACTION = 'always_trade_action'
+NEVER_TRADE_ACTION = 'never_trade_action'
+OPTIMAL_TRADE_ACTION = 'optimal_trade_action'
+WEIGHT = 'weight'
+DATE = 'date'
+RESPONSE = 'resp'

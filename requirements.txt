@@ -1,0 +1,10 @@
+jupyter
+numpy
+pandas
+matplotlib
+seaborn
+plotly
+dabl
+datatable
+missingno
+scikit-learn
