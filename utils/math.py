@@ -4,6 +4,12 @@ import pandas as pd
 from utils.constants import *
 
 
+def calculate_utility_bulk(data: pd.DataFrame, label: str):
+    calculate_utility_for_df(df=data, action_column=ACTION, label=f'{label}_PREDICTED')
+    calculate_utility_for_df(df=data, action_column=OPTIMAL_TRADE_ACTION, label=f'{label}_OPTIMAL')
+    calculate_utility_for_df(df=data, action_column=ALWAYS_TRADE_ACTION, label=f'{label}_ALWAYS_TRADE')
+
+
 def calculate_utility_for_df(df, action_column, label='TRAIN'):
     return calculate_utility(date=df[DATE],
                              weight=df[WEIGHT],
