@@ -6,14 +6,15 @@ from entities.JaneStreetDataSet import JaneStreetDataSet
 
 class AbstractModel(ABC):
     def __init__(self):
-        pass
+        self._is_trained = False
 
     def train(self, features, actions_for_training):
-        self.fit(features=features,
+        self.fit(features=self.transform(features),
                  actions=actions_for_training)
+        self._is_trained = True
 
     def make_prediction(self, features):
-        return self.predict(features)
+        return self.predict(self.transform(features))
 
     @abstractmethod
     def fit(self, features, actions):
@@ -21,5 +22,9 @@ class AbstractModel(ABC):
 
     @abstractmethod
     def predict(self, features):
+        pass
+
+    @abstractmethod
+    def transform(self, features):
         pass
 

@@ -21,15 +21,8 @@ class ExperimentContext:
     def get_always_trade_actions(weights):
         return (1 - weights * 0).astype('int')
 
-    @staticmethod
-    def sanitize_features(features):
-        result = features.fillna(0)
-        result = result.replace(np.nan, 0)
-        result = result.replace('nan')
-        return result
-
     def run_experiment(self):
-        self.model.train(features=self.sanitize_features(self.train_set.features),
+        self.model.train(features=self.train_set.features,
                          actions_for_training=self.get_optimal_actions(weights=self.train_set.weights,
                                                                        response=self.train_set.response))
 
@@ -44,7 +37,7 @@ class ExperimentContext:
                            label=data_set.label)
 
     def get_result_df(self, data_set: JaneStreetDataSet) -> pd.DataFrame:
-        predicted_actions = self.model.make_prediction(features=self.sanitize_features(data_set.features))
+        predicted_actions = self.model.make_prediction(features=data_set.features)
         res = pd.DataFrame()
 
         res[DATE] = data_set.date
@@ -54,5 +47,4 @@ class ExperimentContext:
         res[ALWAYS_TRADE_ACTION] = self.get_always_trade_actions(weights=data_set.weights)
         res[OPTIMAL_TRADE_ACTION] = self.get_optimal_actions(weights=data_set.weights,
                                                              response=data_set.response)
-
         return res
