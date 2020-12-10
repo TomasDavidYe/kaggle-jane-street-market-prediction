@@ -7,10 +7,11 @@ import numpy as np
 
 class LogisticsRegressionModel(AbstractModel):
 
-    def __init__(self):
+    def __init__(self, columns=None):
         super().__init__()
         self.__model = LogisticRegression()
         self.__scaler = StandardScaler()
+        self.__columns = columns
 
 
     def fit(self, features, actions):
@@ -24,7 +25,11 @@ class LogisticsRegressionModel(AbstractModel):
         result = result.replace(np.nan, 0)
         result = result.replace('nan')
 
+        if self.__columns is not None:
+            result = result[self.__columns]
+
         if not self._is_trained:
             self.__scaler.fit(X=result)
 
-        return self.__scaler.transform(X=result)
+        result = self.__scaler.transform(result)
+        return result

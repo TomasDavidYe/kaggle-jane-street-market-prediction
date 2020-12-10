@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 
 from entities.JaneStreetDataSet import JaneStreetDataSet
 from models.AbstractModel import AbstractModel
