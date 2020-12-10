@@ -4,7 +4,7 @@ import numpy as np
 from entities.JaneStreetDataSet import JaneStreetDataSet
 from models.AbstractModel import AbstractModel
 from utils.constants import *
-from utils.math import calculate_utility_for_df, calculate_utility_bulk
+from utils.math import calculate_utility_bulk, calculate_accuracy
 
 
 class ExperimentContext:
@@ -39,6 +39,9 @@ class ExperimentContext:
     def interpret_results(self, data_set: JaneStreetDataSet):
         result_df = self.get_result_df(data_set)
         calculate_utility_bulk(data=result_df, label=data_set.label)
+        calculate_accuracy(y_true=result_df[OPTIMAL_TRADE_ACTION],
+                           y_pred=result_df[ACTION],
+                           label=data_set.label)
 
     def get_result_df(self, data_set: JaneStreetDataSet) -> pd.DataFrame:
         predicted_actions = self.model.make_prediction(features=self.sanitize_features(data_set.features))

@@ -1,7 +1,9 @@
 import math
 import pandas as pd
+from sklearn.metrics import accuracy_score, f1_score, roc_curve, auc, confusion_matrix
 
 from utils.constants import *
+from utils.plot_utils import plot_roc_curve
 
 
 def calculate_utility_bulk(data: pd.DataFrame, label: str):
@@ -40,6 +42,8 @@ def calculate_utility(date, weight, response, action, label='TRAIN'):
     utility = u_coefficient * sum_p
 
     print(f'{label}: NUM_DAYS = {num_days} ')
+    print(f'{label}: NUM_TRADING_OPPORTUNITIES = {len(df[ACTION])} ')
+    print(f'{label}: NUM_OF_TRADES = {len(df[df[ACTION] == 1])}')
     print(f'{label}: SUM_PROFIT = {sum_p} ')
     print(f'{label}: STD_PROFIT = {std_p} ')
     print(f'{label}: T_COEFFICIENT = {t_coefficient} ')
@@ -48,3 +52,17 @@ def calculate_utility(date, weight, response, action, label='TRAIN'):
 
     print(f'--------------------CALCULATING UTILITY END {label}-------------------\n')
     return [sum_p, std_p, t_coefficient, u_coefficient, utility]
+
+
+def calculate_accuracy(y_true, y_pred, label):
+    print(f'------------------Performance Analysis for {label} SET Start--------------------')
+    print(f'Accuracy = {accuracy_score(y_true, y_pred)}')
+    print(f'F1 Score = {f1_score(y_true, y_pred)}')
+    fpr, tpr, thresholds = roc_curve(y_true, y_pred, pos_label=1)
+    area_under_roc_curve = auc(fpr, tpr)
+    plot_roc_curve(fpr, tpr, area_under_roc_curve, label)
+    print(f'Area under ROC curve = {area_under_roc_curve}')
+    tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
+    print(f'TP = {tp}, FP = {fp}')
+    print(f'FN = {fn}, TN = {tn}')
+    print(f'------------------Performance Analysis for {label} SET End----------------------')
