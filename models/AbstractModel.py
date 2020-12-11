@@ -16,6 +16,13 @@ class AbstractModel(ABC):
     def make_prediction(self, features):
         return self.predict(self.transform(features))
 
+    @staticmethod
+    def sanitize_features(features):
+        result = features.fillna(0)
+        result = result.replace(np.nan, 0)
+        result = result.replace('nan')
+        return result
+
     @abstractmethod
     def fit(self, features, actions):
         pass

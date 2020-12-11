@@ -21,9 +21,7 @@ class LogisticsRegressionModel(AbstractModel):
         return self.__model.predict(X=features)
 
     def transform(self, features):
-        result = features.fillna(0)
-        result = result.replace(np.nan, 0)
-        result = result.replace('nan')
+        result = self.sanitize_features(features)
 
         if self.__columns is not None:
             result = result[self.__columns]

@@ -8,3 +8,4 @@ dabl
 datatable
 missingno
 scikit-learn
+torch
