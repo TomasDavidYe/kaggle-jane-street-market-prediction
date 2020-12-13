@@ -10,7 +10,8 @@ class MLP(nn.Module):
             nn.ReLU(),
             nn.Linear(layers, layers),
             nn.ReLU(),
-            nn.Linear(layers, 1)
+            nn.Linear(layers, 1),
+            nn.Sigmoid()
         )
 
     def forward(self, x):
