@@ -1,9 +1,9 @@
+import math
 import numpy as np
 from matplotlib import cm
 import matplotlib.pyplot as plt
 import pandas as pd
 import torch
-
 
 from deep_learning.MLP import MLP
 
@@ -20,7 +20,7 @@ def classify(x, y):
 def generate_points(num_of_points):
     x_coordinates = (np.random.random(num_of_points) - 0.5) * 3 * a
     y_coordinates = (np.random.random(num_of_points) - 0.5) * 3 * b
-    labels_local = (classify(x_coordinates[i], y_coordinates[i]) for i in range(num_of_points))
+    labels_local = [classify(x_coordinates[i], y_coordinates[i]) for i in range(num_of_points)]
     return x_coordinates, y_coordinates, labels_local
 
 
@@ -38,7 +38,49 @@ dataset.plot.scatter(x='x', y='y', c='label', cmap=cm.get_cmap('Spectral'))
 plt.plot(ellipse_x, ellipse_y)
 plt.xlabel("X")
 plt.ylabel("Y")
+
+
+mlp = MLP(input_layers=2,
+          hidden_layers=8,
+          learning_rate=0.5,
+          n_epochs=10000)
+
+train_target = torch.tensor(labels).float()
+train_features = torch.tensor([x_points, y_points]).float()
+
+before_train_prob = mlp.forward(train_features)
+before_train_pred = (before_train_prob >= 0.5).float()
+
+mlp.fit(x=train_features,
+        y_true=train_target)
+after_train_prob = mlp.forward(train_features)
+after_train_pred = (after_train_prob >= 0.5).float()
+
+print(f'Accuracy before: {100 * (train_target == before_train_pred).float().mean()}%')
+print(f'Accuracy after: {100 * (train_target == after_train_pred).float().mean()}%')
+
+
+def get_meshgrid_axis(x, y, num_of_points=100):
+    x_min, x_max = x.min() - 1, x.max() + 1
+    y_min, y_max = y.min() - 1, y.max() + 1
+
+    x_granularity = 10 ** int(math.log10(x_max - x_min)) / num_of_points
+    y_granularity = 10 ** int(math.log10(y_max - y_min)) / num_of_points
+
+    return np.arange(x_min, x_max, x_granularity), np.arange(y_min, y_max, y_granularity)
+
+
+def get_meshgrid(x, y):
+    x_axis, y_axis = get_meshgrid_axis(x, y)
+    xx, yy = np.meshgrid(x_axis, y_axis)
+
+    return xx, yy, x_axis, y_axis
+
+
+xx, yy, x_axis, y_axis = get_meshgrid(x_points, y_points)
+grid_features = torch.tensor([xx.ravel(), yy.ravel()]).float()
+grid_predictions = mlp.predict(grid_features)
+colored_grid = grid_predictions.numpy().reshape(xx.shape)
+
+plt.contourf(xx, yy, colored_grid, alpha=0.4)
 plt.show()
-
-mlp = MLP(3)
-

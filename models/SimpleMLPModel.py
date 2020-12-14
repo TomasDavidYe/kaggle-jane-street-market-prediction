@@ -26,7 +26,7 @@ class SimpleMLPModel(AbstractModel):
         epochs = 15
 
         for epoch in range(epochs):
-            self.__mlp.train()
+            self.__mlp.train(,
 
             train_losses = []
             valid_losses = []
