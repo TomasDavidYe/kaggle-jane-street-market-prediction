@@ -51,16 +51,7 @@ train_features = torch.tensor([
     y_points ** 2
 ]).float()
 
-before_train_prob = model.forward(train_features)
-before_train_pred = (before_train_prob >= 0.5).float()
 
-model.fit(x=train_features,
-          y_true=train_target)
-after_train_prob = model.forward(train_features)
-after_train_pred = (after_train_prob >= 0.5).float()
-
-print(f'Accuracy before: {100 * (train_target == before_train_pred).float().mean()}%')
-print(f'Accuracy after: {100 * (train_target == after_train_pred).float().mean()}%')
 
 
 def get_meshgrid_axis(x, y, num_of_points=100):
@@ -80,10 +71,29 @@ def get_meshgrid(x, y):
     return xx, yy, x_axis, y_axis
 
 
-xx, yy, x_axis, y_axis = get_meshgrid(x_points, y_points)
-grid_features = torch.tensor([xx.ravel(), yy.ravel(), xx.ravel() ** 2, yy.ravel() ** 2]).float()
-grid_predictions = model.predict(grid_features)
-colored_grid = grid_predictions.numpy().reshape(xx.shape)
+def plot_decision_boundary():
+    xx, yy, x_axis, y_axis = get_meshgrid(x_points, y_points)
+    grid_features = torch.tensor([
+        xx.ravel(),
+        yy.ravel(),
+        xx.ravel() ** 2,
+        yy.ravel() ** 2
+    ]).float()
+    grid_predictions = model.predict(grid_features)
+    colored_grid = grid_predictions.numpy().reshape(xx.shape)
 
-plt.contourf(xx, yy, colored_grid, alpha=0.4)
-plt.show()
+    plt.contourf(xx, yy, colored_grid, alpha=0.4)
+    plt.show()
+
+
+before_train_prob = model.forward(train_features)
+before_train_pred = (before_train_prob >= 0.5).float()
+
+model.fit(x=train_features,
+          y_true=train_target)
+after_train_prob = model.forward(train_features)
+after_train_pred = (after_train_prob >= 0.5).float()
+
+print(f'Accuracy before: {100 * (train_target == before_train_pred).float().mean()}%')
+print(f'Accuracy after: {100 * (train_target == after_train_pred).float().mean()}%')
+plot_decision_boundary()

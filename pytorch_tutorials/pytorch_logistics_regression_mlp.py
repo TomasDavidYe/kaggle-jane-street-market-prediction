@@ -40,13 +40,18 @@ plt.xlabel("X")
 plt.ylabel("Y")
 
 
-mlp = MLP(input_layers=2,
-          hidden_layers=8,
+mlp = MLP(input_layers=4,
+          hidden_layers=0,
           learning_rate=0.5,
-          n_epochs=10000)
+          n_epochs=1000)
 
 train_target = torch.tensor(labels).float()
-train_features = torch.tensor([x_points, y_points]).float()
+train_features = torch.tensor([
+    x_points,
+    y_points,
+    x_points**2,
+    y_points**2
+]).float()
 
 before_train_prob = mlp.forward(train_features)
 before_train_pred = (before_train_prob >= 0.5).float()
@@ -78,7 +83,12 @@ def get_meshgrid(x, y):
 
 
 xx, yy, x_axis, y_axis = get_meshgrid(x_points, y_points)
-grid_features = torch.tensor([xx.ravel(), yy.ravel()]).float()
+grid_features = torch.tensor([
+    xx.ravel(),
+    yy.ravel(),
+    xx.ravel()**2,
+    yy.ravel()**2
+]).float()
 grid_predictions = mlp.predict(grid_features)
 colored_grid = grid_predictions.numpy().reshape(xx.shape)
 

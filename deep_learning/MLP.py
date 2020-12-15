@@ -8,19 +8,16 @@ class MLP(nn.Module):
         super(MLP, self).__init__()
         self.__learning_rate = learning_rate
         self.__n_epochs = n_epochs
-        self.__layers = nn.Sequential(
-            nn.Linear(input_layers, hidden_layers),
-            nn.ReLU(),
-            nn.Linear(hidden_layers, hidden_layers),
-            nn.ReLU(),
-            nn.Linear(hidden_layers, 1),
+        self.layers = nn.Sequential(
+            nn.Linear(input_layers, 1),
             nn.Sigmoid()
         )
 
     def forward(self, x):
         tmp = x.reshape(x.size()[1], x.size()[0])
-        evaluated = self.__layers(tmp)
+        evaluated = self.layers(tmp)
         reshaped = evaluated.reshape(1, evaluated.size()[0])[0]
+
         return reshaped
 
 
