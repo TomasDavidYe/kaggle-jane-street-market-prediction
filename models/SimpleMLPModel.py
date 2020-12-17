@@ -8,7 +8,7 @@ from models.AbstractModel import AbstractModel
 
 
 class SimpleMLPModel(AbstractModel):
-    def __init__(self):
+    def __init__(self, num_of_epochs=100):
         super().__init__()
         self.__mlp = MLP()
         self.__loss_fn = torch.nn.CrossEntropyLoss()
@@ -25,35 +25,6 @@ class SimpleMLPModel(AbstractModel):
         total = 0
         epochs = 15
 
-        for epoch in range(epochs):
-            self.__mlp.train(,
-
-            train_losses = []
-            valid_losses = []
-
-
-            self.__optimizer.zero_grad()
-
-            predicted = self.__mlp(features)
-            loss = self.__loss_fn(predicted, labels)
-            loss.backward()
-            self.__optimizer.step()
-
-            train_losses.append(loss.item())
-
-
-            self.__mlp.eval()
-
-
-            correct += (predicted == labels).sum().item()
-            total += 1
-
-            mean_train_losses.append(np.mean(train_losses))
-
-            accuracy = 100 * correct / total
-            valid_acc_list.append(accuracy)
-            print('epoch : {}, train loss : {:.4f}, valid loss : {:.4f}, valid acc : {:.2f}%' \
-                  .format(epoch + 1, np.mean(train_losses), np.mean(valid_losses), accuracy))
 
     def predict(self, features):
         return self.__mlp(features)
