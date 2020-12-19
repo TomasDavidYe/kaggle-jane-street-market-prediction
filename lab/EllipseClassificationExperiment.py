@@ -16,10 +16,9 @@ class EllipseClassificationExperiment:
         self.__feature_transform = feature_transform
 
     def run(self):
-        ellipse = EllipseDatasetGenerator(a=2, b=1)
-        ellipse_x, ellipse_y = ellipse.get_ellipse_curve()
-        x_points, y_points, labels = ellipse.generate_points_around_ellipse(num_of_points=self.__num_of_points,
-                                                                            buffer_coefficient=self.__buffer_coefficient)
+        ellipse = EllipseDatasetGenerator(a=2, b=1, num_of_points=self.__num_of_points, interval_boundary=self.__buffer_coefficient)
+        ellipse_x, ellipse_y = ellipse.get_curve()
+        x_points, y_points, labels = ellipse.generate_points()
 
         train_target = torch.tensor(labels).float()
         train_features = self.__feature_transform(x_points, y_points)
@@ -27,8 +26,8 @@ class EllipseClassificationExperiment:
         before_train_prob = self.__model.forward(train_features)
         before_train_pred = (before_train_prob >= 0.5).float()
 
-        self.__model.train(x=train_features,
-                           y_true=train_target)
+        self.__model.fit(x=train_features,
+                         y_true=train_target)
 
         after_train_prob = self.__model.forward(train_features)
         after_train_pred = (after_train_prob >= 0.5).float()

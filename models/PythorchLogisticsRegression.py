@@ -23,7 +23,7 @@ class PytorchLogisticsRegression:
         prob = self.forward(x)
         return (prob >= 0.5).float()
 
-    def train(self, x, y_true):
+    def fit(self, x, y_true):
         optimizer = torch.optim.SGD([self.__weights, self.__bias], self.__learning_rate)
         loss_fn = torch.nn.BCELoss()
 
