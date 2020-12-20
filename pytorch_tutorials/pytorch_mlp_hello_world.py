@@ -3,23 +3,7 @@ import numpy
 import torch
 from sklearn.datasets import make_blobs
 
-
-class Feedforward(torch.nn.Module):
-    def __init__(self, input_size, hidden_size):
-        super(Feedforward, self).__init__()
-        self.input_size = input_size
-        self.hidden_size = hidden_size
-        self.fc1 = torch.nn.Linear(self.input_size, self.hidden_size)
-        self.relu = torch.nn.ReLU()
-        self.fc2 = torch.nn.Linear(self.hidden_size, 1)
-        self.sigmoid = torch.nn.Sigmoid()
-
-    def forward(self, x):
-        hidden = self.fc1(x)
-        relu = self.relu(hidden)
-        output = self.fc2(relu)
-        output = self.sigmoid(output)
-        return output
+from pytorch_tutorials.pytorch_mlp_hello_world_2 import Feedforward
 
 
 def blob_label(y, label, loc):  # assign labels
@@ -40,7 +24,7 @@ x_test = torch.FloatTensor(x_test)
 y_test = torch.FloatTensor(blob_label(y_test, 0, [0]))
 y_test = torch.FloatTensor(blob_label(y_test, 1, [1, 2, 3]))
 
-model = Feedforward(2, 10)
+model = Feedforward(2)
 criterion = torch.nn.BCELoss()
 optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
 
@@ -50,7 +34,7 @@ before_train = criterion(y_pred.squeeze(), y_test)
 print('Test loss before training', before_train.item())
 
 model.train()
-epoch = 20
+epoch = 100
 for epoch in range(epoch):
     optimizer.zero_grad()
     # Forward pass
