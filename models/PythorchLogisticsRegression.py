@@ -29,12 +29,15 @@ class PytorchLogisticsRegression:
 
         for epoch in range(1, self.__n_epochs + 1):
             optimizer.zero_grad()
+
             # Forward pass
             y_pred = self.forward(x)
+
             # Compute Loss
             loss = loss_fn(y_pred, y_true)
 
             print('Epoch {}: train loss: {}'.format(epoch, loss.item()))
+
             # Backward pass
             loss.backward()
             optimizer.step()

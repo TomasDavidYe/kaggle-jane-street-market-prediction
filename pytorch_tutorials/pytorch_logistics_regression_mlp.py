@@ -19,7 +19,6 @@ def get_feature_size():
 
 
 model = MLP(input_size=get_feature_size(),
-            hidden_size=2,
             learning_rate=0.5,
             n_epochs=1000)
 

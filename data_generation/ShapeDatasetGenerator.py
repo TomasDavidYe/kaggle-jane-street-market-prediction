@@ -3,9 +3,8 @@ import numpy as np
 
 
 class ShapeDatasetGenerator(ABC):
-    def __init__(self, num_of_points, interval_boundary):
+    def __init__(self, interval_boundary):
         self.__interval_boundary = interval_boundary
-        self.__num_of_points = num_of_points
 
     @abstractmethod
     def classify(self, x, y):
@@ -16,8 +15,8 @@ class ShapeDatasetGenerator(ABC):
         pass
 
 
-    def generate_points(self):
-        x_coordinates = (np.random.random(self.__num_of_points) - 0.5) * self.__interval_boundary * 2
-        y_coordinates = (np.random.random(self.__num_of_points) - 0.5) * self.__interval_boundary * 2
-        labels_local = [self.classify(x_coordinates[i], y_coordinates[i]) for i in range(self.__num_of_points)]
+    def generate_points(self, num_of_points):
+        x_coordinates = (np.random.random(num_of_points) - 0.5) * self.__interval_boundary * 2
+        y_coordinates = (np.random.random(num_of_points) - 0.5) * self.__interval_boundary * 2
+        labels_local = [self.classify(x_coordinates[i], y_coordinates[i]) for i in range(num_of_points)]
         return x_coordinates, y_coordinates, labels_local

@@ -6,8 +6,8 @@ from data_generation.ShapeDatasetGenerator import ShapeDatasetGenerator
 
 
 class EllipseDatasetGenerator(ShapeDatasetGenerator):
-    def __init__(self, a, b, num_of_points, interval_boundary):
-        super().__init__(num_of_points=num_of_points, interval_boundary=interval_boundary)
+    def __init__(self, a, b, interval_boundary):
+        super().__init__(interval_boundary=interval_boundary)
         self.__a = a
         self.__b = b
 

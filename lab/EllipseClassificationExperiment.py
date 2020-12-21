@@ -16,9 +16,9 @@ class EllipseClassificationExperiment:
         self.__feature_transform = feature_transform
 
     def run(self):
-        ellipse = EllipseDatasetGenerator(a=2, b=1, num_of_points=self.__num_of_points, interval_boundary=self.__buffer_coefficient)
+        ellipse = EllipseDatasetGenerator(a=self.__ellipse_a, b=self.__ellipse_b, interval_boundary=self.__buffer_coefficient)
         ellipse_x, ellipse_y = ellipse.get_curve()
-        x_points, y_points, labels = ellipse.generate_points()
+        x_points, y_points, labels = ellipse.generate_points(num_of_points=self.__num_of_points)
 
         train_target = torch.tensor(labels).float()
         train_features = self.__feature_transform(x_points, y_points)
