@@ -9,7 +9,6 @@ t_c = torch.tensor(t_c).unsqueeze(1)
 t_u = torch.tensor(t_u).unsqueeze(1)
 
 plt.scatter(x=t_u, y=t_c)
-plt.show()
 
 
 def reshape(x):
@@ -50,3 +49,15 @@ training_loop(
 print()
 print(linear_model.weight)
 print(linear_model.bias)
+
+
+t_range = torch.arange(20., 90.).unsqueeze(1)
+fig = plt.figure(dpi=600)
+
+plt.xlabel("Fahrenheit")
+plt.ylabel("Celsius")
+plt.plot(t_u.numpy(), t_c.numpy(), 'o')
+plt.plot(t_range.numpy(), linear_model(t_range * 0.1).detach().numpy(), 'c-')
+plt.plot(t_u.numpy(), linear_model(t_u * 0.1).detach().numpy(), 'kx')
+
+plt.show()
