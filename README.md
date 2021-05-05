@@ -3,5 +3,12 @@ This repository contains Tommy's solution to a Kaggle Competition called [**Jane
 
 Additionally, it contains a set of utility methods designed to make general exploratory data analysis of ML competitions easier. 
 
-# Project Structure
+# How to use the package?
 TODO
+
+# Data Structure
+TODO
+
+# Algorithm
+TODO
+
