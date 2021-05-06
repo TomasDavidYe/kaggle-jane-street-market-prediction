@@ -1,7 +1,6 @@
 import numpy as np
 from abc import ABC, abstractmethod
 
-from entities.JaneStreetDataSet import JaneStreetDataSet
 
 
 class AbstractModel(ABC):

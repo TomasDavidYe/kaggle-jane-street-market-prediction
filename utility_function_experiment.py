@@ -1,5 +1,5 @@
 import pandas as pd
-from utils.math import calculate_utility
+from utils.jane_street_math import calculate_utility
 from utils.constants import *
 
 train_data_small = pd.read_csv('data/jane-street-market-prediction/train_data_small.csv')

@@ -3,7 +3,7 @@ import pandas as pd
 from entities.JaneStreetDataSet import JaneStreetDataSet
 from models.AbstractModel import AbstractModel
 from utils.constants import *
-from utils.math import calculate_utility_bulk, calculate_accuracy
+from utils.jane_street_math import calculate_utility_bulk, calculate_accuracy
 
 
 class ExperimentContext:
